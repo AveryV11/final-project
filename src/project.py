@@ -58,32 +58,32 @@ while True:
             if event.key == pygame.K_r:
                 reset_game()
 
-        keys = pygame.key.get_pressed()
+    keys = pygame.key.get_pressed()
 
-        if not game_over:
-            if keys[pygame.K_LEFT] and player_x > 0:
+    if not game_over:
+        if keys[pygame.K_LEFT] and player_x > 0:
                 player_x -= player_speed
-            if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
+        if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
                 player_x += player_speed
 
-            enemy_y += enemy_speed
+        enemy_y += enemy_speed
 
-            if enemy_y > HEIGHT:
-                enemy_y = -enemy_height
-                enemy_x = random.randint(0, WIDTH - enemy_width)
-                score += 1
-                enemy_speed += 0.3
+        if enemy_y > HEIGHT:
+            enemy_y = -enemy_height
+            enemy_x = random.randint(0, WIDTH - enemy_width)
+            score += 1
+            enemy_speed += 0.3
 
-            player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
-            enemy_rect = pygame.Rect(enemy_x, enemy_y, enemy_width, enemy_height)
+        player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
+        enemy_rect = pygame.Rect(enemy_x, enemy_y, enemy_width, enemy_height)
 
-            if player_rect.colliderect(enemy_rect):
-                game_over = True
+        if player_rect.colliderect(enemy_rect):
+            game_over = True
 
-            pygame.draw.rect(screen, WHITE, player_rect)
-            pygame.draw.rect(screen, RED, enemy_rect)
+        pygame.draw.rect(screen, WHITE, player_rect)
+        pygame.draw.rect(screen, RED, enemy_rect)
 
-            draw_text(f"Score: {score}", 40, 10, 10)
+        draw_text(f"Score: {score}", 40, 10, 10)
     else:
         draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
         draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
