@@ -42,7 +42,8 @@ def draw_text(text, size, x, y):
     screen.blit(render, (x, y))
 
 def reset_game():
-    global player_x, enemies, enemy_y, enemy_speed, score, game_over
+    global player_x, enemies, enemy_speed, score, game_over
+
     player_x = WIDTH // 2 - player_width // 2
     enemy_speed = 5
     score = 0
@@ -51,7 +52,7 @@ def reset_game():
     enemies = []
     for i in range(3):
         x = random.randint(0, WIDTH - enemy_width)
-        y = random.randit(-300, -50)
+        y = random.randint(-300, -50)
         enemies.append([x, y])
 
 while True:
@@ -75,27 +76,24 @@ while True:
         if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
                 player_x += player_speed
 
-        if enemy_y > HEIGHT:
-            enemy_y = -enemy_height
-            enemy_x = random.randint(0, WIDTH - enemy_width)
-            score += 1
-            enemy_speed += 0.3
-
         player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
-    for enemy in enemies:
-        enemy[1] += enemy_speed
+   
+        for enemy in enemies:
+            enemy[1] += enemy_speed
 
-        if enemy[1] > HEIGHT:
-            enemy[0] = random.randint(0, WIDTH - enemy_width)
-            enemy[1] = random.randint(-200, -50)
-            score += 1
+            if enemy[1] > HEIGHT:
+                enemy[0] = random.randint(0, WIDTH - enemy_width)
+                enemy[1] = random.randint(-200, -50)
+                score += 1
 
-        enemy_rect = pygame.Rect(enemy_x, enemy_y, enemy_width, enemy_height)
+            enemy_rect = pygame.Rect(enemy[0], enemy[1], enemy_width, enemy_height)
 
-        if player_rect.colliderect(enemy_rect):
-            game_over = True
+            if player_rect.colliderect(enemy_rect):
+                game_over = True
 
-        pygame.draw.rect(screen, RED, enemy_rect)
+            pygame.draw.rect(screen, RED, enemy_rect)
+
+        pygame.draw.rect(screen, WHITE, player_rect)
 
         draw_text(f"Score: {score}", 40, 10, 10)
     else:
