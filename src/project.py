@@ -27,7 +27,7 @@ enemy_speed = 5
 enemies = []
 
 for i in range(3):
-     x = random.randit(0, WIDTH - enemy_width)
+     x = random.randint(0, WIDTH - enemy_width)
      y = random.randint(-300, -50)
      enemies.append([x,y])
 
