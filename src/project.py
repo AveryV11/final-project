@@ -4,7 +4,7 @@ import sys
 
 pygame.init()
 
-WIDTH, HEIGHT = 600, 800
+WIDTH, HEIGHT = 1680, 850
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 background_img = pygame.image.load("background.png")
@@ -36,6 +36,7 @@ for i in range(3):
      enemies.append([x,y])
 
 score = 0
+last_spawn_score = 0
 font = pygame.font.SysFont(None, 40)
 
 game_over = False
@@ -46,12 +47,13 @@ def draw_text(text, size, x, y):
     screen.blit(render, (x, y))
 
 def reset_game():
-    global player_x, enemies, enemy_speed, score, game_over
+    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score
 
     player_x = WIDTH // 2 - player_width // 2
     enemy_speed = 5
     score = 0
     game_over = False
+    last_spawn_score = 0
 
     enemies = []
     for i in range(3):
@@ -97,6 +99,12 @@ while True:
             pygame.draw.rect(screen, RED, enemy_rect)
 
         pygame.draw.rect(screen, WHITE, player_rect)
+
+        if score % 10 == 0 and score != last_spawn_score and len(enemies) < 8:
+             x = random.randint(0, WIDTH - enemy_width)
+             y = random.randint(-200, -50)
+             enemies.append([x, y])
+             last_spawn_score = score
 
         draw_text(f"Score: {score}", 40, 10, 10)
     else:
