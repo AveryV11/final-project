@@ -74,4 +74,11 @@ while True:
                 score += 1
                 enemy_speed += 0.3
 
+            player-rect = pygame.Rect(player_x, player_y, player_width, player_height)
+            enemy_rect = pygame.Rect(enemy_x, enemy_y, enemy_width, enemy_height)
+
+            if player_rect.colliderect(enemy_rect):
+                game_over = True
+                
+
 
