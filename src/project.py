@@ -14,6 +14,18 @@ WHITE = (255, 255, 255)
 RED = (200, 0, 0)
 BLACK = (0, 0, 0)
 
+player_width = 60
+player_height = 20
+player_x = WIDTH // 2 - player_width // 2
+player_y = HEIGHT - 60
+player_speed = 7
+
+enemy_width = 50
+enemy_height = 50
+enemy_x = random.randint(0, WIDTH - enemy_width)
+enemy_y = -enemy_height
+enemy_speed = 5
+
 game_over = False
 
 def draw_text(text, size, x, y):
