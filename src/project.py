@@ -75,8 +75,6 @@ while True:
         if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
                 player_x += player_speed
 
-        enemy_y += enemy_speed
-
         if enemy_y > HEIGHT:
             enemy_y = -enemy_height
             enemy_x = random.randint(0, WIDTH - enemy_width)
