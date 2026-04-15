@@ -68,4 +68,10 @@ while True:
 
             enemy_y += enemy_speed
 
+            if enemy_y > HEIGHT:
+                enemy_y = -enemy_height
+                enemy_x = random.randint(0, WIDTH - enemy_width)
+                score += 1
+                enemy_speed += 0.3
+
 
