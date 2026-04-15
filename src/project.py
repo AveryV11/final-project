@@ -74,7 +74,7 @@ while True:
                 score += 1
                 enemy_speed += 0.3
 
-            player-rect = pygame.Rect(player_x, player_y, player_width, player_height)
+            player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
             enemy_rect = pygame.Rect(enemy_x, enemy_y, enemy_width, enemy_height)
 
             if player_rect.colliderect(enemy_rect):
@@ -84,6 +84,11 @@ while True:
             pygame.draw.rect(screen, RED, enemy_rect)
 
             draw_text(f"Score: {score}", 40, 10, 10)
+    else:
+        draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
+        draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
+
+    pygame.display.update()
 
 
 
