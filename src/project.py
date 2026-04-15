@@ -26,6 +26,9 @@ enemy_x = random.randint(0, WIDTH - enemy_width)
 enemy_y = -enemy_height
 enemy_speed = 5
 
+score = 0
+font = pygame.font.SysFont(None, 40)
+
 game_over = False
 
 def draw_text(text, size, x, y):
@@ -54,5 +57,15 @@ while True:
         if game_over and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 reset_game()
+
+        keys = pygame.key.get_pressed()
+
+        if not game_over:
+            if keys[pygame.K_LEFT] and player_x > 0:
+                player_x -= player_speed
+            if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
+                player_x += player_speed
+
+            enemy_y += enemy_speed
 
 
