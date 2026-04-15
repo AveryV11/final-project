@@ -79,6 +79,11 @@ while True:
 
             if player_rect.colliderect(enemy_rect):
                 game_over = True
-                
+
+            pygame.draw.rect(screen, WHITE, player_rect)
+            pygame.draw.rect(screen, RED, enemy_rect)
+
+            draw_text(f"Score: {score}", 40, 10, 10)
+
 
 
