@@ -6,6 +6,10 @@ pygame.init()
 
 WIDTH, HEIGHT = 600, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+background_img = pygame.image.load("background.png")
+background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
+
 pygame.display.set_caption("Submerged Survival")
 
 clock = pygame.time.Clock()
@@ -57,8 +61,7 @@ def reset_game():
 
 while True:
     clock.tick(60)
-    screen.fill(BLACK)
-
+    screen.blit(background_img, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
