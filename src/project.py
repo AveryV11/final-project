@@ -14,6 +14,8 @@ pygame.display.set_caption("Submerged Survival")
 
 clock = pygame.time.Clock()
 
+difficulty_timer = 0
+
 WHITE = (255, 255, 255)
 RED = (200, 0, 0)
 BLACK = (0, 0, 0)
@@ -47,13 +49,14 @@ def draw_text(text, size, x, y):
     screen.blit(render, (x, y))
 
 def reset_game():
-    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score
-
+    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score, difficutly_timer
+    
     player_x = WIDTH // 2 - player_width // 2
     enemy_speed = 5
     score = 0
     game_over = False
     last_spawn_score = 0
+    difficulty_timer = 0
 
     enemies = []
     for i in range(3):
@@ -76,6 +79,12 @@ while True:
     keys = pygame.key.get_pressed()
 
     if not game_over:
+
+        difficulty_timer += 1
+
+        if difficulty_timer % 600 == 0:
+             enemy_speed *= 1.05
+
         if keys[pygame.K_LEFT] and player_x > 0:
                 player_x -= player_speed
         if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
@@ -100,7 +109,7 @@ while True:
 
         pygame.draw.rect(screen, WHITE, player_rect)
 
-        if score % 10 == 0 and score != last_spawn_score and len(enemies) < 8:
+        if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
              x = random.randint(0, WIDTH - enemy_width)
              y = random.randint(-200, -50)
              enemies.append([x, y])
