@@ -20,27 +20,40 @@ WHITE = (255, 255, 255)
 RED = (200, 0, 0)
 BLACK = (0, 0, 0)
 
-player_width = 60
-player_height = 20
-player_x = WIDTH // 2 - player_width // 2
-player_y = HEIGHT - 60
-player_speed = 7
 
 submarine_img = pygame.image.load("submarine.png").convert_alpha()
-submarine_img = pygame.transform.scale(submarine_img, (player_width, player_height))
+scale_factor = 0.1
+new_width = int(submarine_img.get_width() * scale_factor)
+new_height = int(submarine_img.get_height() * scale_factor)
+
+submarine_img = pygame.transform.scale(submarine_img, (new_width, new_height))
 
 submarine_left = pygame.transform.flip(submarine_img, True, False)
 submarine_right = submarine_img
+
+submarine_mask_right = pygame.mask.from_surface(submarine_right)
+submarine_mask_left = pygame.mask.from_surface(submarine_left)
+
+player_width = new_width
+player_height = new_height
+
+player_x = WIDTH // 2 - player_width // 2
+player_y = HEIGHT - player_height - 10
+player_speed = 7
 
 enemy_width = 50
 enemy_height = 50
 enemy_speed = 5
 
+enemy_surface = pygame.Surface((enemy_width, enemy_height), pygame.SRCALPHA)
+enemy_surface.fill((255, 0, 0))
+enemy_mask = pygame.mask.from_surface(enemy_surface)
+
 enemies = []
 
 for i in range(3):
      x = random.randint(0, WIDTH - enemy_width)
-     y = random.randint(-300, -50)
+     y = random.randint(-600, -150)
      enemies.append([x,y])
 
 score = 0
@@ -57,7 +70,7 @@ def draw_text(text, size, x, y):
     screen.blit(render, (x, y))
 
 def reset_game():
-    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score, difficutly_timer
+    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score, difficulty_timer
     
     player_x = WIDTH // 2 - player_width // 2
     enemy_speed = 5
@@ -101,19 +114,37 @@ while True:
                 player_x += player_speed
                 facing_right = True
 
-        player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
-   
+        player_rect = pygame.Rect(
+             player_x + player_width * 0.2, 
+             player_y + player_height * 0.2,
+             player_width * 0.6,
+             player_height * 0.6
+        )
+
         for enemy in enemies:
             enemy[1] += enemy_speed
 
             if enemy[1] > HEIGHT:
                 enemy[0] = random.randint(0, WIDTH - enemy_width)
-                enemy[1] = random.randint(-200, -50)
+                enemy[1] = random.randint(-600, -150)
                 score += 1
 
-            enemy_rect = pygame.Rect(enemy[0], enemy[1], enemy_width, enemy_height)
+            enemy_rect = pygame.Rect(
+                enemy[0] + 5,
+                enemy[1] + 5,
+                enemy_width - 10,
+                enemy_height - 10
+            )
 
-            if player_rect.colliderect(enemy_rect):
+            offset_x = enemy[0] - player_x
+            offset_y = enemy[1] - player_y
+
+            if facing_right:
+                collision = submarine_mask_right.overlap(enemy_mask, (offset_x, offset_y))
+            else:
+                collision = submarine_mask_left.overlap(enemy_mask, (offset_x, offset_y))
+
+            if collision:
                 game_over = True
 
             pygame.draw.rect(screen, RED, enemy_rect)
@@ -122,7 +153,7 @@ while True:
              screen.blit(submarine_right, (player_x, player_y))
         else:
              screen.blit(submarine_left, (player_x, player_y))
-
+        
 
         if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
              x = random.randint(0, WIDTH - enemy_width)
