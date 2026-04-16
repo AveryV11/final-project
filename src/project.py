@@ -26,6 +26,12 @@ player_x = WIDTH // 2 - player_width // 2
 player_y = HEIGHT - 60
 player_speed = 7
 
+submarine_img = pygame.image.load("submarine.png").convert_alpha()
+submarine_img = pygame.transform.scale(submarine_img, (player_width, player_height))
+
+submarine_left = pygame.transform.flip(submarine_img, True, False)
+submarine_right = submarine_img
+
 enemy_width = 50
 enemy_height = 50
 enemy_speed = 5
@@ -42,6 +48,8 @@ last_spawn_score = 0
 font = pygame.font.SysFont(None, 40)
 
 game_over = False
+
+facing_right = True
 
 def draw_text(text, size, x, y):
     font = pygame.font.SysFont(None, size)
@@ -87,8 +95,11 @@ while True:
 
         if keys[pygame.K_LEFT] and player_x > 0:
                 player_x -= player_speed
+                facing_right = False
+
         if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
                 player_x += player_speed
+                facing_right = True
 
         player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
    
@@ -107,7 +118,11 @@ while True:
 
             pygame.draw.rect(screen, RED, enemy_rect)
 
-        pygame.draw.rect(screen, WHITE, player_rect)
+        if facing_right:
+             screen.blit(submarine_right, (player_x, player_y))
+        else:
+             screen.blit(submarine_left, (player_x, player_y))
+
 
         if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
              x = random.randint(0, WIDTH - enemy_width)
