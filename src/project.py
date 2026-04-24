@@ -157,7 +157,7 @@ while True:
             if collision:
                 game_over = True
 
-           screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
+        screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
         if facing_right:
              screen.blit(submarine_right, (player_x, player_y))
         else:
