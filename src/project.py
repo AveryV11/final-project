@@ -37,8 +37,8 @@ submarine_mask_left = pygame.mask.from_surface(submarine_left)
 player_width = new_width
 player_height = new_height
 
-enemy_width = 50
-enemy_height = 50
+enemy_width = 120
+enemy_height = 120
 
 enemy_imgs = [
      pygame.image.load("enemy1.png").convert_alpha(),
