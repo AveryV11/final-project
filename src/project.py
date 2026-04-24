@@ -37,24 +37,30 @@ submarine_mask_left = pygame.mask.from_surface(submarine_left)
 player_width = new_width
 player_height = new_height
 
+enemy_width = 50
+enemy_height = 50
+
+enemy_images = [
+     pygame.image.load("enemy1.png").convert_alpha(),
+     pygame.image.load("enemy2.png").convert_alpha(),
+     pygame.image.load("enemy3.png").convert_alpha()
+]
+
+enemy_imgs = [pygame.transform.scale(img, (enemy_width, enemy_height)) for img in enemy_imgs]
+
+enemy_masks = [pygame.mask.from_surface(img) for img in enemy_imgs]
+
 player_x = WIDTH // 2 - player_width // 2
 player_y = HEIGHT - player_height - 10
 player_speed = 7
-
-enemy_width = 50
-enemy_height = 50
-enemy_speed = 5
-
-enemy_surface = pygame.Surface((enemy_width, enemy_height), pygame.SRCALPHA)
-enemy_surface.fill((255, 0, 0))
-enemy_mask = pygame.mask.from_surface(enemy_surface)
 
 enemies = []
 
 for i in range(3):
      x = random.randint(0, WIDTH - enemy_width)
      y = random.randint(-600, -150)
-     enemies.append([x,y])
+     img_ind = random.randint(0, 2)
+     enemies.append([x, y, img_index])
 
 score = 0
 last_spawn_score = 0
@@ -83,7 +89,8 @@ def reset_game():
     for i in range(3):
         x = random.randint(0, WIDTH - enemy_width)
         y = random.randint(-300, -50)
-        enemies.append([x, y])
+        img_index = random.randit(0, 2)
+        enemies.append([x, y, img_index])
 
 while True:
     clock.tick(60)
@@ -127,6 +134,7 @@ while True:
             if enemy[1] > HEIGHT:
                 enemy[0] = random.randint(0, WIDTH - enemy_width)
                 enemy[1] = random.randint(-600, -150)
+                enemy[2] = random.randint(0, 2)
                 score += 1
 
             enemy_rect = pygame.Rect(
@@ -135,6 +143,8 @@ while True:
                 enemy_width - 10,
                 enemy_height - 10
             )
+
+            enemy_mask = enemy_masks[enemy[2]]
 
             offset_x = enemy[0] - player_x
             offset_y = enemy[1] - player_y
@@ -147,8 +157,7 @@ while True:
             if collision:
                 game_over = True
 
-            pygame.draw.rect(screen, RED, enemy_rect)
-
+           screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
         if facing_right:
              screen.blit(submarine_right, (player_x, player_y))
         else:
