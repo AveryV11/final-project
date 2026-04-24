@@ -158,7 +158,7 @@ while True:
             if collision:
                 game_over = True
 
-        screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
+            screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
         if facing_right:
              screen.blit(submarine_right, (player_x, player_y))
         else:
@@ -168,7 +168,8 @@ while True:
         if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
              x = random.randint(0, WIDTH - enemy_width)
              y = random.randint(-200, -50)
-             enemies.append([x, y])
+             img_index = random.randint(0, 2)
+             enemies.append([x, y, img_index])
              last_spawn_score = score
 
         draw_text(f"Score: {score}", 40, 10, 10)
