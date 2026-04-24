@@ -40,7 +40,7 @@ player_height = new_height
 enemy_width = 50
 enemy_height = 50
 
-enemy_images = [
+enemy_imgs = [
      pygame.image.load("enemy1.png").convert_alpha(),
      pygame.image.load("enemy2.png").convert_alpha(),
      pygame.image.load("enemy3.png").convert_alpha()
