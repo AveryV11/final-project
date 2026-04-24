@@ -59,7 +59,7 @@ enemies = []
 for i in range(3):
      x = random.randint(0, WIDTH - enemy_width)
      y = random.randint(-600, -150)
-     img_ind = random.randint(0, 2)
+     img_index = random.randint(0, 2)
      enemies.append([x, y, img_index])
 
 score = 0
