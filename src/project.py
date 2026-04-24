@@ -49,6 +49,7 @@ enemy_imgs = [
 enemy_imgs = [pygame.transform.scale(img, (enemy_width, enemy_height)) for img in enemy_imgs]
 
 enemy_masks = [pygame.mask.from_surface(img) for img in enemy_imgs]
+enemy_speed = 5
 
 player_x = WIDTH // 2 - player_width // 2
 player_y = HEIGHT - player_height - 10
@@ -89,7 +90,7 @@ def reset_game():
     for i in range(3):
         x = random.randint(0, WIDTH - enemy_width)
         y = random.randint(-300, -50)
-        img_index = random.randit(0, 2)
+        img_index = random.randint(0, 2)
         enemies.append([x, y, img_index])
 
 while True:
