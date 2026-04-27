@@ -73,13 +73,27 @@ def reset_game():
          "facing_right": True
     }
    
+def handle_input(state):
+    keys = pygame.key.get_pressed()
 
-    enemies = []
-    for i in range(3):
-        x = random.randint(0, WIDTH - enemy_width)
-        y = random.randint(-300, -50)
-        img_index = random.randint(0, 2)
-        enemies.append([x, y, img_index])
+    if keys[pygame.K_LEFT] and state["player_x"] > 0:
+        state["player_x"] -= 7
+        state["facing_right"] = False
+
+    if keys[pygame.K_RIGHT] and state["player_x"] < WIDTH - player_width:
+        state["player_x"] += 7
+        state["facing_right"] = True
+
+def update_enemies(state):
+    for enemy in state["enemies"]:
+            enemy[1] += state["enemy_speed"]
+
+            if enemy[1] > HEIGHT:
+                enemy[:] = spawn_enemy()
+                state["score"] += 1
+
+
+   
 
 while True:
     clock.tick(60)
@@ -93,7 +107,6 @@ while True:
             if event.key == pygame.K_r:
                 reset_game()
 
-    keys = pygame.key.get_pressed()
 
     if not game_over:
 
@@ -102,13 +115,7 @@ while True:
         if difficulty_timer % 600 == 0:
              enemy_speed *= 1.05
 
-        if keys[pygame.K_LEFT] and player_x > 0:
-                player_x -= player_speed
-                facing_right = False
-
-        if keys[pygame.K_RIGHT] and player_x < WIDTH - player_width:
-                player_x += player_speed
-                facing_right = True
+       
 
         player_rect = pygame.Rect(
              player_x + player_width * 0.2, 
@@ -117,14 +124,7 @@ while True:
              player_height * 0.6
         )
 
-        for enemy in enemies:
-            enemy[1] += enemy_speed
-
-            if enemy[1] > HEIGHT:
-                enemy[0] = random.randint(0, WIDTH - enemy_width)
-                enemy[1] = random.randint(-600, -150)
-                enemy[2] = random.randint(0, 2)
-                score += 1
+        
 
             enemy_rect = pygame.Rect(
                 enemy[0] + 5,
