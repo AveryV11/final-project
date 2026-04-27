@@ -128,12 +128,12 @@ def draw_game(state):
     for enemy in state["enemies"]:
         screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
 
-        if state["facing_right"]:
-             screen.blit(submarine_right, (state["player_x"], state["player_y"]))
-        else:
-             screen.blit(submarine_left, (state["player_x"], state["player_y"]))
+    if state["facing_right"]:
+        screen.blit(submarine_right, (state["player_x"], state["player_y"]))
+    else:
+        screen.blit(submarine_left, (state["player_x"], state["player_y"]))
 
-        draw_text(f"Score: {state['score']}", 40, 10, 10)
+    draw_text(f"Score: {state['score']}", 40, 10, 10)
 
 def draw_game_over():
     screen.blit(background_img, (0, 0))
