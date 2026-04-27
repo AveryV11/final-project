@@ -7,11 +7,11 @@
 Demo Video: 
 
 ## GitHub Repository
-GitHub Repo: 
+GitHub Repo: https://github.com/AveryV11/final-project
 
 ## Description
 
-Submerged Survival is a fast-paced 2D arcade survival game developed using **Python + Pygame**.  In this game, the player controls a submarine that can move left and right across the screen to dodge incoming enemies. The objective is to survive as long as possible while enemies continuously spawn and increase in number and speed over time.  The player earns points whenever  an enemy successfully passes off the screen without colliding with the submarine. 
+Submerged Survival is a fast-paced 2D arcade survival game developed using **Python + Pygame**.  In this game, the player controls a submarine that can move left and right across the screen to dodge falling enemies. The objective is to survive as long as possible while enemies continuously spawn and increase in number and speed over time.  The player earns points whenever  an enemy successfully passes off the screen without colliding with the submarine. 
 
 The project is built in a single Python file that manages the game loop, player movement, rendering, collision detection, and difficulty.  It uses image assets such as background, a submarine, and enemy sprites to create the visuals.  Collision detection is handled using Pygame masks, which makes interactions more accurate than basic rectangle collisions. The use of masks were used for precise detection allowing the submarine to flip based on its direction path.  Rendering was improved by organizing how objects were drawn on the screen.
 
@@ -64,7 +64,6 @@ Overall, the project demonstrates important programming concepts such as game lo
 
 Install dependencies using:
 
-```bash
 pip install -r requirements.txt
 
 ## Challenges
