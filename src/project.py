@@ -107,25 +107,33 @@ def check_collisions(state):
         if collision:
             state["game_over"] = True
 
-    def increase_difficulty(state):
-            state["difficulty_timer"] += 1
+def increase_difficulty(state):
+    state["difficulty_timer"] += 1
 
-            if state["difficulty_timer"] % 600 == 0:
-                 state["enemy_speed"] *= 1.05
+    if state["difficulty_timer"] % 600 == 0:
+        state["enemy_speed"] *= 1.05
 
-            if (
-                 state["score"] % 10 == 0 and 
-                 state["score"] != state["last_spawn_score"] and
-                 len(state["enemies"]) , 10
-            ):
-                 state["enemies"].append(spawn_enemy())
-                 state["last_spawn_score"] = state["score"]
+    if (
+        state["score"] % 10 == 0 and 
+        state["score"] != state["last_spawn_score"] and
+        len(state["enemies"]) , 10
+    ):
+        state["enemies"].append(spawn_enemy())
+        state["last_spawn_score"] = state["score"]
 
-            screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
-        if facing_right:
-             screen.blit(submarine_right, (player_x, player_y))
+def draw_game(state):
+    screen.blit(background_img, (0, 0))
+
+    for enemy in state["enemies"]:
+        screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
+
+        if state["facing_right"]:
+             screen.blit(submarine_right, (state["player_x"], state["player_y"]))
         else:
-             screen.blit(submarine_left, (player_x, player_y))
+             screen.blit(submarine_left, (state["player_x"], state["player_y"]))
+
+        draw_text(f"Score: {score}", 40, 10, 10)
+
         
 
 
@@ -133,7 +141,6 @@ def check_collisions(state):
 
 while True:
     clock.tick(60)
-    screen.blit(background_img, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -173,7 +180,6 @@ while True:
              enemies.append([x, y, img_index])
              last_spawn_score = score
 
-        draw_text(f"Score: {score}", 40, 10, 10)
     else:
         draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
         draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
