@@ -132,7 +132,7 @@ def draw_game(state):
         else:
              screen.blit(submarine_left, (state["player_x"], state["player_y"]))
 
-        draw_text(f"Score: {score}", 40, 10, 10)
+        draw_text(f"Score: {'score'}", 40, 10, 10)
 
 def draw_game_over():
     draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
