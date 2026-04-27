@@ -1,7 +1,21 @@
 # final-project
-# ![alt text](image.png)Submerged Survival
+# Submerged Survival
 
-A fast-paced 2D arcade survival game built with **Python + Pygame**, where you can control a submarine and dodge incoming enemies while the difficulty increases over time. 
+![alt text](image.png)
+
+## Demo
+Demo Video: 
+
+## GitHub Repository
+GitHub Repo: 
+
+## Description
+
+Submerged Survival is a fast-paced 2D arcade survival game developed using **Python + Pygame**.  In this game, the player controls a submarine that can move left and right across the screen to dodge incoming enemies. The objective is to survive as long as possible while enemies continuously spawn and increase in number and speed over time.  The player earns points whenever  an enemy successfully passes off the screen without colliding with the submarine. 
+
+The project is built in a single Python file that manages the game loop, player movement, rendering, collision detection, and difficulty.  It uses image assets such as background, a submarine, and enemy sprites to create the visuals.  Collision detection is handled using Pygame masks, which makes interactions more accurate than basic rectangle collisions. The use of masks were used for precise detection allowing the submarine to flip based on its direction path.  Rendering was improved by organizing how objects were drawn on the screen.
+
+Overall, the project demonstrates important programming concepts such as game loops, user input, state management, and collision detection using Python. 
 
 ---
 
@@ -48,7 +62,14 @@ A fast-paced 2D arcade survival game built with **Python + Pygame**, where you c
 
 ## Installation
 
-### 1. Clone the repository
+Install dependencies using:
+
 ```bash
-https://github.com/AveryV11/final-project
-cd submerged-survival
+pip install -r requirements.txt
+
+## Challenges
+
+During this project, I learned how to use Pygame for game development, including handling real-time user input, managing game loop, and implementing collision detection using masks.  Working with sprite transformations, such as flipping images based on direction.  Additionally, structuring the game using a state-based system helped improve organization and made features like restarting easier to execute.
+
+
+
