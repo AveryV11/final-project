@@ -134,57 +134,36 @@ def draw_game(state):
 
         draw_text(f"Score: {score}", 40, 10, 10)
 
-        
+def draw_game_over():
+    draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
+    draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
+
+def main():
+    state = reset_game()
+
+    while True:
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if state["game_over"] and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    state = reset_game()
 
 
-   
+        if not state["game_over"]:
+            handle_input(state)
+            update_enemies(state)
+            check_collisions(state)
+            increase_difficulty(state)
+            draw_game(state)
+        else:
+            draw_game_over()
 
-while True:
-    clock.tick(60)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+        pygame.display.update()
 
-        if game_over and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                reset_game()
-
-
-    if not game_over:
-
-        difficulty_timer += 1
-
-        if difficulty_timer % 600 == 0:
-             enemy_speed *= 1.05
-
-       
-
-        player_rect = pygame.Rect(
-             player_x + player_width * 0.2, 
-             player_y + player_height * 0.2,
-             player_width * 0.6,
-             player_height * 0.6
-        )
-
-        
-
-            
-
-           
-
-        if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
-             x = random.randint(0, WIDTH - enemy_width)
-             y = random.randint(-200, -50)
-             img_index = random.randint(0, 2)
-             enemies.append([x, y, img_index])
-             last_spawn_score = score
-
-    else:
-        draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
-        draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
-
-    pygame.display.update()
-
-
-
+if __name__ == "__main__":
+    main()
