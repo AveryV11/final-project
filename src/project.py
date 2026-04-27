@@ -92,6 +92,42 @@ def update_enemies(state):
                 enemy[:] = spawn_enemy()
                 state["score"] += 1
 
+def check_collisions(state):
+    for enemy in state["enemies"]:
+        enemy_mask = enemy_masks[enemy[2]]
+
+        offset_x = enemy[0] - state["player_x"]
+        offset_y = enemy[1] - state["player_y"]
+
+        if state["facing_right"]:
+            collision = submarine_mask_right.overlap(enemy_mask, (offset_x, offset_y))
+        else:
+            collision = submarine_mask_left.overlap(enemy_mask, (offset_x, offset_y))
+
+        if collision:
+            state["game_over"] = True
+
+    def increase_difficulty(state):
+            state["difficulty_timer"] += 1
+
+            if state["difficulty_timer"] % 600 == 0:
+                 state["enemy_speed"] *= 1.05
+
+            if (
+                 state["score"] % 10 == 0 and 
+                 state["score"] != state["last_spawn_score"] and
+                 len(state["enemies"]) , 10
+            ):
+                 state["enemies"].append(spawn_enemy())
+                 state["last_spawn_score"] = state["score"]
+
+            screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
+        if facing_right:
+             screen.blit(submarine_right, (player_x, player_y))
+        else:
+             screen.blit(submarine_left, (player_x, player_y))
+        
+
 
    
 
@@ -126,32 +162,9 @@ while True:
 
         
 
-            enemy_rect = pygame.Rect(
-                enemy[0] + 5,
-                enemy[1] + 5,
-                enemy_width - 10,
-                enemy_height - 10
-            )
+            
 
-            enemy_mask = enemy_masks[enemy[2]]
-
-            offset_x = enemy[0] - player_x
-            offset_y = enemy[1] - player_y
-
-            if facing_right:
-                collision = submarine_mask_right.overlap(enemy_mask, (offset_x, offset_y))
-            else:
-                collision = submarine_mask_left.overlap(enemy_mask, (offset_x, offset_y))
-
-            if collision:
-                game_over = True
-
-            screen.blit(enemy_imgs[enemy[2]], (enemy[0], enemy[1]))
-        if facing_right:
-             screen.blit(submarine_right, (player_x, player_y))
-        else:
-             screen.blit(submarine_left, (player_x, player_y))
-        
+           
 
         if score % 10 == 0 and score != last_spawn_score and len(enemies) < 10:
              x = random.randint(0, WIDTH - enemy_width)
