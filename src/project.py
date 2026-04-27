@@ -31,7 +31,7 @@ submarine_mask_right = pygame.mask.from_surface(submarine_right)
 submarine_mask_left = pygame.mask.from_surface(submarine_left)
 
 player_width = submarine_img.get_width()
-player_height = submarine_img.get_height
+player_height = submarine_img.get_height()
 
 enemy_width = 120
 enemy_height = 120
@@ -63,12 +63,13 @@ def reset_game():
     enemies = [spawn_enemy() for _ in range(3)]
 
     return {
-         "Player_x": player_x,
+         "player_x": player_x,
          "player_y": player_y, 
-         "enemy_speed": enemies,
+         "enemy_speed": 6,
+         "enemies": enemies,
          "score": 0,
          "last_spawn_score": 0,
-         "difficulty_time": 0,
+         "difficulty_timer": 0,
          "game_over": False,
          "facing_right": True
     }
@@ -86,11 +87,11 @@ def handle_input(state):
 
 def update_enemies(state):
     for enemy in state["enemies"]:
-            enemy[1] += state["enemy_speed"]
+        enemy[1] += state["enemy_speed"]
 
-            if enemy[1] > HEIGHT:
-                enemy[:] = spawn_enemy()
-                state["score"] += 1
+        if enemy[1] > HEIGHT:
+            enemy[:] = spawn_enemy()
+            state["score"] += 1
 
 def check_collisions(state):
     for enemy in state["enemies"]:
@@ -110,13 +111,13 @@ def check_collisions(state):
 def increase_difficulty(state):
     state["difficulty_timer"] += 1
 
-    if state["difficulty_timer"] % 600 == 0:
-        state["enemy_speed"] *= 1.05
+    if state["difficulty_timer"] % 300 == 0:
+        state["enemy_speed"] *= 1.10
 
     if (
         state["score"] % 10 == 0 and 
         state["score"] != state["last_spawn_score"] and
-        len(state["enemies"]) , 10
+        len(state["enemies"]) < 10
     ):
         state["enemies"].append(spawn_enemy())
         state["last_spawn_score"] = state["score"]
@@ -132,9 +133,10 @@ def draw_game(state):
         else:
              screen.blit(submarine_left, (state["player_x"], state["player_y"]))
 
-        draw_text(f"Score: {'score'}", 40, 10, 10)
+        draw_text(f"Score: {state['score']}", 40, 10, 10)
 
 def draw_game_over():
+    screen.blit(background_img, (0, 0))
     draw_text("GAME OVER", 60, WIDTH // 2 - 140, HEIGHT // 2 - 50)
     draw_text("Press R to Restart", 40, WIDTH // 2 - 170, HEIGHT // 2 + 20)
 
