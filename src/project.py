@@ -15,10 +15,14 @@ background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
 
 submarine_img = pygame.image.load("submarine.png").convert_alpha()
 scale_factor = 0.1
-new_width = int(submarine_img.get_width() * scale_factor)
-new_height = int(submarine_img.get_height() * scale_factor)
 
-submarine_img = pygame.transform.scale(submarine_img, (new_width, new_height))
+submarine_img = pygame.transform.scale(
+    submarine_img, 
+    (
+        int(submarine_img.get_width() * scale_factor),
+        int(submarine_img.get_height() * scale_factor)
+    )
+)
 
 submarine_left = pygame.transform.flip(submarine_img, True, False)
 submarine_right = submarine_img
@@ -26,11 +30,8 @@ submarine_right = submarine_img
 submarine_mask_right = pygame.mask.from_surface(submarine_right)
 submarine_mask_left = pygame.mask.from_surface(submarine_left)
 
-
-difficulty_timer = 0
-
-player_width = new_width
-player_height = new_height
+player_width = submarine_img.get_width()
+player_height = submarine_img.get_height
 
 enemy_width = 120
 enemy_height = 120
@@ -42,29 +43,8 @@ enemy_imgs = [
 ]
 
 enemy_imgs = [pygame.transform.scale(img, (enemy_width, enemy_height)) for img in enemy_imgs]
-
 enemy_masks = [pygame.mask.from_surface(img) for img in enemy_imgs]
-enemy_speed = 5
 
-player_x = WIDTH // 2 - player_width // 2
-player_y = HEIGHT - player_height - 10
-player_speed = 7
-
-enemies = []
-
-for i in range(3):
-     x = random.randint(0, WIDTH - enemy_width)
-     y = random.randint(-600, -150)
-     img_index = random.randint(0, 2)
-     enemies.append([x, y, img_index])
-
-score = 0
-last_spawn_score = 0
-font = pygame.font.SysFont(None, 40)
-
-game_over = False
-
-facing_right = True
 
 def draw_text(text, size, x, y):
     font = pygame.font.SysFont(None, size)
@@ -75,17 +55,24 @@ def spawn_enemy():
      x = random.randint(0, WIDTH - enemy_width)
      y = random.randint(-600, -150)
      img_index = random.randint(0, 2)
-     return [x, y, inm_index]
+     return [x, y, img_index]
 
 def reset_game():
-    global player_x, enemies, enemy_speed, score, game_over, last_spawn_score, difficulty_timer
-    
     player_x = WIDTH // 2 - player_width // 2
-    enemy_speed = 5
-    score = 0
-    game_over = False
-    last_spawn_score = 0
-    difficulty_timer = 0
+    player_y = HEIGHT - player_height - 10
+    enemies = [spawn_enemy() for _ in range(3)]
+
+    return {
+         "Player_x": player_x,
+         "player_y": player_y, 
+         "enemy_speed": enemies,
+         "score": 0,
+         "last_spawn_score": 0,
+         "difficulty_time": 0,
+         "game_over": False,
+         "facing_right": True
+    }
+   
 
     enemies = []
     for i in range(3):
