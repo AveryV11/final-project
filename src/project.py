@@ -2,24 +2,16 @@ import pygame
 import random
 import sys
 
-pygame.init()
-
 WIDTH, HEIGHT = 1680, 850
+WHITE = (255, 255, 255)
+
+pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Submerged Survival")
+clock = pygame.time.Clock()
 
 background_img = pygame.image.load("background.png")
 background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
-
-pygame.display.set_caption("Submerged Survival")
-
-clock = pygame.time.Clock()
-
-difficulty_timer = 0
-
-WHITE = (255, 255, 255)
-RED = (200, 0, 0)
-BLACK = (0, 0, 0)
-
 
 submarine_img = pygame.image.load("submarine.png").convert_alpha()
 scale_factor = 0.1
@@ -33,6 +25,9 @@ submarine_right = submarine_img
 
 submarine_mask_right = pygame.mask.from_surface(submarine_right)
 submarine_mask_left = pygame.mask.from_surface(submarine_left)
+
+
+difficulty_timer = 0
 
 player_width = new_width
 player_height = new_height
@@ -75,6 +70,12 @@ def draw_text(text, size, x, y):
     font = pygame.font.SysFont(None, size)
     render = font.render(text, True, WHITE)
     screen.blit(render, (x, y))
+
+def spawn_enemy():
+     x = random.randint(0, WIDTH - enemy_width)
+     y = random.randint(-600, -150)
+     img_index = random.randint(0, 2)
+     return [x, y, inm_index]
 
 def reset_game():
     global player_x, enemies, enemy_speed, score, game_over, last_spawn_score, difficulty_timer
